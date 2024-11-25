@@ -4,8 +4,8 @@
 BINDIST    = x86-64_linux
 SYSTEM     = x86-64_linux
 LIBFORMAT  = static_pic
-CPLEXDIR      = /opt/ibm/ILOG/CPLEX_Studio_Community201/cplex
-CONCERTDIR    = /opt/ibm/ILOG/CPLEX_Studio_Community201/concert
+CPLEXDIR      = /opt/ibm/ILOG/CPLEX_Studio2211/cplex
+CONCERTDIR    = /opt/ibm/ILOG/CPLEX_Studio2211/concert
 
 ################
 
