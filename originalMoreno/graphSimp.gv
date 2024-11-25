@@ -1,0 +1,52 @@
+digraph G {
+    main -> readInstance;
+    main -> solveModels;
+    main -> cout;
+
+    readInstance -> readGraphChen;
+    readInstance -> readMediumInstances;
+    readInstance -> readLeighton;
+    readInstance -> readSteind;
+    readInstance -> readTSPLIB95;
+
+    solveModels -> G_detectBridges;
+    solveModels -> findOH_NH;
+    solveModels -> Solve_ModelCut;
+    solveModels -> G_G_BFS [color = blue, label = "n times"]; 
+    solveModels -> Solve_ModelCut [color = blue, label = "n times"];
+        Solve_ModelCut -> G_detectCutH;
+            G_detectCutH -> G2_BFS_Conexity [color = blue];
+        Solve_ModelCut -> Solve_Graph;
+
+    Solve_Graph -> Solve_Model;
+        Solve_Model -> heuristic_ILS;
+        Solve_Model -> H_findCocycle;
+        Solve_Model -> root_function;
+        Solve_Model -> Solve_ModelTime;
+            Solve_ModelTime -> IloCplex_functions;
+
+    heuristic_ILS -> make_tree;
+        make_tree -> Select_1 [color = orange, label = "many times"];
+        make_tree -> Select_2 [color = orange];
+            Select_1 -> absorve;
+        make_tree -> Select_3 [color = orange];
+            Select_3 -> absorve;
+        make_tree -> Select_4 [color = orange];
+            Select_4 -> absorve;
+        make_tree -> Select_5 [color = orange];
+            Select_5 -> absorve;
+        make_tree -> Select_6 [color = orange];
+            Select_6 -> absorve;
+
+    heuristic_ILS -> Perturbation [color = orange, label = "many times"];
+        Perturbation -> RemoveEdge [color = orange];
+        Perturbation -> FindEdgePert [color = orange];
+    heuristic_ILS -> LocalSearch [color = orange, label = "many times"];
+
+    LocalSearch -> FirstBestN [color = orange, label = "many times"];
+        FirstBestN -> RemoveEdge [color = green];
+        FirstBestN -> FindEdge [color = green];
+
+    Solve_Graph -> Solve_Graph;
+    Solve_Graph -> Solve_Graph [color = blue, label = "n times"]; 
+}

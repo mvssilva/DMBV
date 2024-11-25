@@ -1,0 +1,22 @@
+
+1- Fazer um make na pasta. Revisar no makefile as configurações do cplex.
+
+2- Modo de usar: dmbv arquivo parametro_d id_leitor opt.
+
+   dmbv: O nome do executável
+   arquivo : O caminho até o arquivo
+   parametro_d: O parâmtero d
+   id_leitor: O identificador do grupo da instância. Define o método que será usado para ler a instância.
+   opt: Se será resolvido de forma exata (diferente de 0) ou heuristica (0 ou não fornecer esse argumento)
+   
+   Exemplo: ./dmbv ../Spd_RF2_600_637_5211.txt 2 3 1
+
+3- O id_leitor de cada instância é o seguinte:
+
+	0 - "random Set1"
+	1 - "large"
+	2 - "Spd_Inst_Rid_Final2_20_500"
+	3 - "Spd_Inst_Rid_Final2_600_1000"
+	4 - "leighton"
+	5 - "steind"
+	6 - "TSPLIB95"
