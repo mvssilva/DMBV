@@ -12,7 +12,7 @@ all: $(TARGET)
 $(TARGET): $(OBJECTS)
 	$(CCC) $(CCFLAGS) -o $@ $^
 
-%.o: %.c $(INCLUDE)
+%.o: %.cpp $(INCLUDE)
 	$(CCC) $(CCFLAGS) -c -o $@ $<
 
 main.o: main.cpp $(INCLUDE)

@@ -1,5 +1,5 @@
-#include "graph.hpp"
 #include <iostream>
+#include "graph.hpp"
 
 void Graph::graph_add_edge(int src, int dest)
 {
