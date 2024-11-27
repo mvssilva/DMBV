@@ -673,8 +673,8 @@ int solveModels(Graph& G, float &time_solve, int &numb_OH,int &numb_NH, int d, i
         start = clock();
         min_HV = solveModels(G,time_solve,numb_OH, numb_NH, d, exact);
         real_time = ((double)clock() - (double)start) / CLOCKS_PER_SEC;
-
-        cout<<"\t"<< min_HV <<"\t"<<real_time<<"\t"<<time_solve<<"\t"<<NumCut<<endl;
+        ofstream saida("dmbv_original.csv", std::ios_base::app);
+        saida<<argv[1]<< ";" << G.n <<";" << G.m<<";"<< min_HV<<";"<<NumCut<<endl;
 
         return 0;
     }

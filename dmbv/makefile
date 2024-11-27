@@ -24,7 +24,7 @@ CPLEXINCDIR   = $(CPLEXDIR)/include
 
 CCFLAGS = $(CCOPT) -I$(CPLEXINCDIR) -I$(CONCERTINCDIR) 
 
-INPUT_FILES := $(wildcard Instancias/*.txt)
+INPUT_FILES := $(wildcard ../instancias/Spd_Inst_Rid_Final2_600_1000_Orig/*.txt)
 
 all : main
 
@@ -44,7 +44,7 @@ run: main.o
 	@echo "Resultados salvos!"
 
 runsimples: main.o
-	./dmbv Instancias/Spd_RF2_20_27_219.txt 2 2 1 0 0 0
+	./dmbv ../instancias/Spd_Inst_Rid_Final2_600_1000_Orig/Spd_RF2_1000_1239_6187.txt 2 2 0 0 0 0  
 
 clean:
 	rm --force main main.o
