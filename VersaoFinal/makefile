@@ -19,7 +19,7 @@ main.o: main.cpp $(INCLUDE)
 	$(CCC) $(CCFLAGS) -c -o $@ $< 
 
 run: 
-	./$(TARGET)
+	./$(TARGET) ../Instancias/Spd_Inst_Rid_Final2_20_500_Orig/Spd_RF2_20_27_211.txt
 
 clean:
 	rm -f src/*.o main.o $(TARGET)

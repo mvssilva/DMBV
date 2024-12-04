@@ -38,17 +38,13 @@ bool Graph::graph_exists_edge(int src, int dest) const
 
 void Graph::graph_print() const
 {
+    cout <<"graph G{" << endl;
     for (int i = 0; i < n; i++)
     {
-        cout << "Degree of vertex " << i << " is : ";
-        cout << deg[i] << endl;
-
-        cout << "Adjecency List of vertex " << i << " is : ";
-        list<int>::iterator it;
-        for (it = adj[i].begin(); it != adj[i].end(); ++it)
-            cout << *it << " -> ";
-        cout << "\n";
+        for (int u : adj[i]){
+            if(i < u)    
+            cout <<"  "<< i+1 << " -- " << u+1 << endl;
+        }
     }
-    cout << "Number of vertices: " << n << endl;
-    cout << "Number of edges: " << m << endl;
+    cout << "}" << endl;
 }

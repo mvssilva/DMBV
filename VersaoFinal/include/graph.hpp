@@ -11,6 +11,9 @@ class Graph {
         list<int> *adj;
         int *deg;
         
+        // Construtor padrão
+        Graph() : n(0), m(0), adj(nullptr), deg(nullptr) {}
+
         Graph(int vertices, int edges) : n(vertices), m(edges) {
             // Inicializando adjacências e graus
             adj = new list<int>[n]; // Aloca lista para os n vértices
