@@ -30,7 +30,8 @@ Grafo::Grafo(int pn, int pm):
 
 Grafo::Grafo(const Grafo& G):
     n(G.n), m(G.m), V(G.V), PG(G.PG), E(G.E), listaAdj(G.listaAdj),
-    raiz(G.raiz), PE(G.PE), PS(G.PS), BACK(G.BACK), pai(G.pai), ListaCT(G.ListaCT), listaCConexa(G.listaCConexa), mapaCConexa(G.n,vector<int>())
+    raiz(G.raiz), PE(G.PE), PS(G.PS), BACK(G.BACK), pai(G.pai), 
+    ListaCT(G.ListaCT), listaCConexa(G.listaCConexa), mapaCConexa(G.n,vector<int>())
 {
     for (int i = 0; i < n; i++)
         mapaCConexa[i] = vector<int>(G.mapaCConexa[i]);

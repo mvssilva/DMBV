@@ -6,7 +6,7 @@
 
 #include "io.hpp"
 #include "graph.hpp"
-#include "rbep.hpp"
+#include "construct.hpp"
 
 using namespace std;
 
@@ -19,8 +19,6 @@ int main(int argc, char *argv[]){
 
     //Algoritmo Construtivo R-BEP
     Graph t = construct_rbep(g);
-
-
 
     return 0;
 }
