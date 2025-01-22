@@ -22,14 +22,19 @@ Graph read_graph(const char * file)
     
     Graph G = Graph(n, m);
     
+    for (int i = 0; i < n; i++)
+        G.add_vertice(i);
+    
+
     for(int i = 0; i < m; i++)
     {
         f >> src;
         f >> dest;
         f >> weight;
-        G.graph_add_edge(src-1,dest-1);
+        G.add_edge(src-1,dest-1);
     }
 
+    G.calculate_pagerank();
     
     f.close();
     return G;

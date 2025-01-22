@@ -51,7 +51,6 @@ void readMediumInstances(char *ruta, igraph_t &g, vector<float> &pg)
     // std::string outputFilename = "pagerank/" + filename + ".txt";
 
     // Abrir o arquivo de saída
-    // std::ofstream print(outputFilename);
 
     igraph_vector_t pagerank;
     igraph_real_t value;
@@ -64,11 +63,10 @@ void readMediumInstances(char *ruta, igraph_t &g, vector<float> &pg)
     for (int i = 0; i < n; i++){
         float x = (float) igraph_vector_e(from, i); 
         addpg(x, pg);
-        // print << i + 1 << " - " << x << endl;
+        // cout << i + 1 << " - " << x << endl;
     }
     igraph_vector_destroy(&pagerank);
 
-    // print.close();
     f.close();
 }
 

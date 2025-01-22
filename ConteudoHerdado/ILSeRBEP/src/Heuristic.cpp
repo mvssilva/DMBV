@@ -70,7 +70,7 @@ void Heuristic::ILS(igraph_t &g, int *L, bool *OH,  vector<float> &pagerank, con
     else
         make_tree_rbep(g,L,OH,adjlist, pathcomplete, pagerank); 
     
-    
+
     string step = "imagens";    
 
     igraph_vector_t AdjV;
@@ -188,6 +188,8 @@ void Heuristic::ILS(igraph_t &g, int *L, bool *OH,  vector<float> &pagerank, con
     delete []FE;
     delete []visitado;
     cout << endl;
+    
+
 
 }
 

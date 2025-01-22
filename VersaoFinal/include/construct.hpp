@@ -4,7 +4,7 @@
 #include "graph.hpp"
 #include <random>
 
-Graph& construct_rbep(Graph&);
+Graph construct_rbep(Graph&);
 Graph& alg_rbep(Graph&, std::mt19937_64);
 Graph& save_tree(Graph&);
 

@@ -1,16 +1,20 @@
 #include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <cmath>
+#include <iomanip>
+#include <algorithm>
 #include "graph.hpp"
 
+using namespace std;
 
 void Graph::detect_articulations_bridges()
 {
     DFS(root);
 }
 
-void Graph::updateCC(int v, int u)
+void Graph::update_conection(int v, int u)
 {
-    //cout << "Antes Atualizar: " << nome << " " << v << "(" << listCC[v] << ") - " << u << " (" << listCC[u] << ")" << endl;
-
     int maxC = max(listCC[v], listCC[u]);
     int minC = min(listCC[v], listCC[u]);
 
@@ -19,18 +23,32 @@ void Graph::updateCC(int v, int u)
     mapCC[minC].insert(mapCC[minC].end(), mapCC[maxC].begin(), mapCC[maxC].end());
     mapCC[maxC].clear();
 
-    //cout << "Depois Atualizar: " << v << "(" << listCC[v] << ") - " << u << " (" << listCC[u] << ")" << endl;
 }
 
-void Graph::DFS(int root)
-{   
 
-    int v = root;
+int Graph::is_conection(int v) const
+{
+    return listCC[v];
+}
+
+
+vector<int> Graph::vector_Adjacent(int v) const
+{
+    return listAdj[v];
+}
+
+void Graph::DFS(int v)
+{   
+    // A função realiza uma busca em profundidade (DFS - Depth-First Search) no grafo.
+    // Ela calcula os tempos de entrada (PE) e saída (PS) dos nós na DFS e identifica:
+    // - Pontos de articulação (articulation points): Nós cuja remoção desconecta o grafo.
+    // - Pontes (bridges): Arestas cuja remoção desconecta o grafo.
+
     t = t + 1;
 	PE[v] = t;
 	BACK[v] = t;
 
-	for(int w : adj[v])
+	for(int w : listAdj[v])
 	{
         if(PE[w] == 0)
         {
@@ -70,11 +88,6 @@ void Graph::DFS(int root)
 	PS[v] = t;
 }
 
-vector<int> Graph::list_adj(int v) const
-{
-    return listAdj[v];
-}
-
 bool Graph::find_vertice(int v) const
 {
     return (v < n && InV[v] == true);
@@ -91,26 +104,111 @@ void Graph::add_vertice(int v)
 
 void Graph::add_edge(int src, int dest)
 {
-    if (graph_exists_edge(src, dest))
-        return;
-
     if (src == dest)
         return;
     
-    if (src < dest)
-        E.push_back(make_pair(src,dest));
-    else
-        E.push_back(make_pair(dest,src));
+    if (graph_exists_edge(src, dest))
+       return;
 
-    adj[src].push_back(dest);
-    adj[dest].push_back(src);
+    if (src < dest)
+        edge.push_back(make_pair(src,dest));
+    else
+        edge.push_back(make_pair(dest,src));
+
+    listAdj[src].push_back(dest);
+    listAdj[dest].push_back(src);
 
     deg[src]++;
     deg[dest]++;
 
-    updateCC(src, dest);
-    m++;
+    update_conection(src, dest);
 }
+
+
+void Graph::calculate_pagerank()
+{
+    const double DAMPING_FACTOR = 0.85; // Fator de amortecimento
+    const double EPSILON = 1e-6;       // Critério de convergência
+
+    vector<double> rank(n, 1.0 / n); // Inicializa os ranks uniformemente
+    vector<double> newRank(n, 0.0);
+    bool converged = false;
+
+    while (!converged) {
+        converged = true;
+
+        // Atualiza os ranks para cada nó
+        for (int i = 0; i < n; i++) {
+            newRank[i] = (1.0 - DAMPING_FACTOR) / n; // Parte de teletransporte
+            for (int neighbor : listAdj[i]) {
+                newRank[i] += DAMPING_FACTOR * rank[neighbor] / listAdj[neighbor].size();
+            }
+
+            // Verifica a convergência
+            if (fabs(newRank[i] - rank[i]) > EPSILON) {
+                converged = false;
+            }
+        }
+
+        // Atualiza os ranks
+        rank = newRank;
+    }
+
+    for (int i = 0; i < n; i++) 
+        pagerank[i] = rank[i];
+    
+}
+
+int Graph::check_connection(int v) const
+{
+    return listCC[v];
+}
+
+int Graph::v_min_pagerank()
+{
+    float pg = 1;
+    int v = -1;
+
+    for (int i = 0; i < n; i++)
+    {
+        if (pagerank[i] < pg)
+        {
+            v = i;
+            pg = pagerank[i];
+        }
+    }
+    return v;
+}
+
+int Graph::u_min_pagerank(int v)
+{
+    float pg = 1;
+    int u = -1;
+    for (int i : listAdj[v])
+    {
+        if (pagerank[i] < pg)
+        {
+            u = i;
+            pg = pagerank[i];
+        }
+    }
+    return u;
+}
+
+int Graph::number_dbranch()
+{
+    
+    int qtd = 0;
+
+    for(int i = 0; i < n; i++){
+        
+        if(deg[i] > 2)
+            qtd++;
+    }
+
+    return qtd;
+}
+
 
 bool Graph::graph_exists_edge(int src, int dest) const
 {
@@ -121,9 +219,9 @@ bool Graph::graph_exists_edge(int src, int dest) const
         dest = aux;
     }
 
-    list<int>::iterator it;
+    vector<int>::const_iterator it;
 
-    for (it = adj[src].begin(); it != adj[src].end(); ++it)
+    for (it = listAdj[src].begin(); it != listAdj[src].end(); ++it)
     {
         if (*it == dest)
             return true;
@@ -136,7 +234,7 @@ void Graph::graph_print() const
     cout <<"graph G{" << endl;
     for (int i = 0; i < n; i++)
     {
-        for (int u : adj[i]){
+        for (int u : listAdj[i]){
             if(i < u)    
             cout <<"  "<< i+1 << " -- " << u+1 << endl;
         }

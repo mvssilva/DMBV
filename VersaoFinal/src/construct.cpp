@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Graph& construct_rbep(Graph& g)
+Graph construct_rbep(Graph& g)
 {
     Graph t;
     Graph tMin;
@@ -19,22 +19,25 @@ Graph& construct_rbep(Graph& g)
     std::mt19937_64 gen(seed);
 
 
-    //for(int i = 0; i < 100; i++){
+    for(int i = 0; i < 100; i++){
         
         RBEP rbep = RBEP(g);
         rbep.apply(gen);
-        // size_dbranch = rbep.return_size_dbranch();
-        
-        // if(i == 0){
-        //     dbranchMin = size_dbranch;
-        //     tMin = save_tree(t);
-        // }
-        // else if(size_dbranch < dbranchMin){
-        //     dbranchMin = size_dbranch;
-        //     tMin= save_tree(t);
-        // }
-    //}
 
-    return g; //tMin;
+        t = rbep.get_graph(); 
+
+        size_dbranch = rbep.return_size_dbranch();
+        
+        if(i == 0){
+            dbranchMin = size_dbranch;
+            tMin = t;
+        }
+        else if(size_dbranch < dbranchMin){
+            dbranchMin = size_dbranch;
+            tMin = t;
+        }
+    }
+
+    return tMin; 
 
 }

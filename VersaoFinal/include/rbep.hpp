@@ -17,9 +17,8 @@ class RBEP
     protected:
         Graph G;
         Graph T;
-
         vector<int> BT;
-        void AtualizarCConexas(int v, int u);
+        void update_conection(int v, int u);
 
     private:
         vector<bool> InBT;
@@ -32,9 +31,12 @@ class RBEP
 
         void apply(std::mt19937_64& gen);
 
-        Graph ObterArvore() const;
+        Graph get_graph() const;
         vector<int> ObterBranches() const;
         vector<int> ObterGrauBT() const;
+
+
+        int return_size_dbranch();
 };
 
 #endif // RBEP_H

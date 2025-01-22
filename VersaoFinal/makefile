@@ -7,6 +7,8 @@ OBJECTS = $(SOURCE:.cpp=.o) main.o
 
 TARGET = main
 
+INPUT_FILES := $(wildcard ../Instancias/Spd_Inst_Rid_Final/*.txt)
+
 all: $(TARGET)
 
 $(TARGET): $(OBJECTS)
@@ -18,8 +20,17 @@ $(TARGET): $(OBJECTS)
 main.o: main.cpp $(INCLUDE)
 	$(CCC) $(CCFLAGS) -c -o $@ $< 
 
-run: 
-	./$(TARGET) ../Instancias/Spd_Inst_Rid_Final2_20_500_Orig/Spd_RF2_20_27_211.txt
+run1: 
+	./$(TARGET) ../Instancias/Spd_Inst_Rid_Final/Spd_RF2_180_284_3587.txt
+
+run2: 
+	@echo "Executando o programa para todos os arquivos de entrada..."
+	@rm -f 
+	@for input_file in $(INPUT_FILES); do \
+	    echo "Executando $$input_file ..."; \
+	    ./$(TARGET) $$input_file; \
+	done
+	@echo "Resultados salvos!"
 
 clean:
 	rm -f src/*.o main.o $(TARGET)

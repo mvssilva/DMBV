@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
     igraph_t g;
     vector<float> pagerank;
     readInstance(inst, argv[1], g, pagerank);    
-
     time_solve = 0;
     start = clock();
 
@@ -104,9 +103,9 @@ int main(int argc, char *argv[])
     heuristic.ILS(g,L,OH, pagerank, argv[1], selectionConstruct, selectionSearch, orderingSearch, orderingPetu);
 
     real_time = ((double)clock() - (double)start) / CLOCKS_PER_SEC;
-    ofstream RBEPm("output/ILS-4.csv", std::ios_base::app);
+    ofstream RBEPm("output/rbep.csv", std::ios_base::app);
     
-    RBEPm << argv[1] << ";"<< n << ";" << m << ";" << heuristic.numHV << ";" << real_time << ";" << endl;
+    RBEPm << argv[1] << ";"<< n << ";" << m << ";" << heuristic.numHV << ";" << endl;
     RBEPm.close();
 
     igraph_destroy(&g);

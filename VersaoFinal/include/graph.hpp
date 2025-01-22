@@ -10,76 +10,95 @@ class Graph {
     
     protected:
         /*
-            Variáveis responsáveis pelo algoritmo 
-            de detecção de ramificações/dbranch (DFS)
-        */
-        int root;
-        int t;
-        vector<int> PE;
-        vector<int> PS;
-        vector<int> BACK;
-        vector<int> father;
-        vector<int> listCT;
+        Variáveis auxiliares para a execução da DFS e detecção de
+        pontos de articulação, pontes e componentes conexos.
+         */
+        int root;                 // Raiz da DFS.
+        int t;                    
+        vector<int> PE;           
+        vector<int> PS;           
+        vector<int> BACK;         
+        vector<int> father;       // Pai de cada vértice na DFS.
+        vector<int> listCT;       
 
-        void DFS(int v);
-        vector<int> listCC;
-        vector<vector<int>> mapCC;
+        void DFS(int v);          // Busca em profundidade.
+
+        vector<int> listCC;       // Identificação dos componentes conexos.
+        vector<vector<int>> mapCC; // Lista de componentes conexos.
 
     public:
+        
+        string name;                  
+        int n;                        // Número de vértices.
+        int m;                        // Número de arestas.
+        
+        vector<pair<int,int>> edge;   // Lista de todas as arestas (pares de vértices).
+        vector<vector<int>> listAdj;  // Lista de adjacência para representar o grafo.
+        
+        int *deg;                     // Vetor dinâmico que armazena o grau de cada vértice.
+        double *pagerank; 
+        
+        vector<int> V;                  // Vetor de vértices do grafo.
+        vector<bool> InV;               // Indica se cada vértice está presente no conjunto atual.
 
-        string name; 
-        int n, m; 
-        int *deg; 
-        list<int> *adj;
-
-
-        // Vetores propostos para o Algoritmo Construtivo R-BEP
-        vector<int> articulation;
-        vector<pair<int,int>> bridges;
-        vector<int> V;
-        vector<bool> InV;
-        vector<pair<int,int>> E;
-        vector<vector<int>> listAdj;
-
-
-        // Construtor padrão/vazio
-        Graph() : n(0), m(0), adj(nullptr), deg(nullptr) {}
+        vector<int> articulation;       // Lista de pontos de articulação do grafo.
+        vector<pair<int,int>> bridges;  // Lista de arestas que são pontes.
 
 
-        // Construtor da leitura, já sabendo a quantidade de vértices e arestas
-        Graph(int vertices, int edges) :    n(vertices), m(edges), V(vertices, 0), InV(vertices,false), PE(vertices,0), 
-                                            PS(vertices,0), BACK(vertices,0), father(vertices,-1), listCT(vertices,0) {
-            adj = new list<int>[n]; 
-            deg = new int[n]();
+        // Construtor padrão (grafo vazio).
+        Graph() : n(0), m(0), deg(nullptr), pagerank(nullptr) {}
 
-            for (int i = 0; i < n; i++)
-            {
-                //adj.push_back(vector<int>());
-                listCC.push_back(i);
-                mapCC.push_back(vector<int>());
-                mapCC[i].push_back(i);
-            }
+        // Construtor que inicializa o grafo com um número fixo de vértices e arestas.
+        Graph(int vertices, int edges) :    
+            n(vertices), 
+            m(edges), 
+            V(0, 0), 
+            InV(vertices,false), 
+            PE(vertices,0), 
+            PS(vertices,0), 
+            BACK(vertices,0), 
+            father(vertices,-1), 
+            listCT(vertices,0) 
+        {
+                deg = new int[n]();
+                pagerank  = new double[n]();
+                for (int i = 0; i < n; i++)
+                {   
+                    listAdj.push_back(vector<int>());
+                    listCC.push_back(i);
+                    mapCC.push_back(vector<int>());
+                    mapCC[i].push_back(i);
+                }
 
-            root = 0;
-            t = 0;
-            listCT[root] = -1;    
+                root = 0;
+                t = 0;
+                listCT[root] = -1;    
         }
         
 
         ~Graph() {
-            delete[] adj;
-            delete[] deg;
+            // delete[] deg;
+            // delete[] pagerank;
         }
 
-
+        void update_conection(int v, int u);
+        int is_conection(int v) const;
+        vector<int> vector_Adjacent(int v) const;
         void detect_articulations_bridges();
-        void updateCC(int v, int u);
         
         bool find_vertice(int v) const;
         void add_vertice(int v);
         void add_edge(int v, int u);
-        
-        void graph_add_edge(int, int);
+
+        void calculate_pagerank();        
+        int check_connection(int v) const;
+
+        int v_min_pagerank();    
+        int u_min_pagerank(int v);    
+
+        int number_dbranch();
+
+
         bool graph_exists_edge(int, int) const;
         void graph_print() const;
         
