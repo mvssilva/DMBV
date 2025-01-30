@@ -21,7 +21,7 @@ main.o: main.cpp $(INCLUDE)
 	$(CCC) $(CCFLAGS) -c -o $@ $< 
 
 run1: 
-	./$(TARGET) ../Instancias/Spd_Inst_Rid_Final/Spd_RF2_180_284_3587.txt
+	./$(TARGET) ../Instancias/Spd_Inst_Rid_Final/Spd_RF2_20_27_211.txt
 
 run2: 
 	@echo "Executando o programa para todos os arquivos de entrada..."

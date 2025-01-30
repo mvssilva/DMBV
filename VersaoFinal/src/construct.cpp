@@ -36,6 +36,7 @@ Graph construct_rbep(Graph& g)
             dbranchMin = size_dbranch;
             tMin = t;
         }
+
     }
 
     return tMin; 

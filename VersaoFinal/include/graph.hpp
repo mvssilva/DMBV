@@ -31,19 +31,17 @@ class Graph {
         string name;                  
         int n;                        // Número de vértices.
         int m;                        // Número de arestas.
-        
-        vector<pair<int,int>> edge;   // Lista de todas as arestas (pares de vértices).
         vector<vector<int>> listAdj;  // Lista de adjacência para representar o grafo.
-        
         int *deg;                     // Vetor dinâmico que armazena o grau de cada vértice.
         double *pagerank; 
+        
+        vector<pair<int,int>> edge;   // Lista de todas as arestas (pares de vértices).
         
         vector<int> V;                  // Vetor de vértices do grafo.
         vector<bool> InV;               // Indica se cada vértice está presente no conjunto atual.
 
         vector<int> articulation;       // Lista de pontos de articulação do grafo.
         vector<pair<int,int>> bridges;  // Lista de arestas que são pontes.
-
 
         // Construtor padrão (grafo vazio).
         Graph() : n(0), m(0), deg(nullptr), pagerank(nullptr) {}
@@ -81,6 +79,8 @@ class Graph {
             // delete[] pagerank;
         }
 
+        friend void graph_copy(Graph& source, Graph& target);
+
         void update_conection(int v, int u);
         int is_conection(int v) const;
         vector<int> vector_Adjacent(int v) const;
@@ -97,7 +97,6 @@ class Graph {
         int u_min_pagerank(int v);    
 
         int number_dbranch();
-
 
         bool graph_exists_edge(int, int) const;
         void graph_print() const;

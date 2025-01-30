@@ -5,6 +5,6 @@
 
 
 Graph local_search(Graph&, Graph&);
-
+bool custom_Neighbor(Graph &G, Graph &T, Graph &T1, bool *LH, int * L, bool *OH, int *visitado);
 
 #endif // LOCAL_SEARCH__

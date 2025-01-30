@@ -26,7 +26,7 @@ int RBEP::return_size_dbranch()
 
 void RBEP::apply(std::mt19937_64& gen)
 {
-
+    
     BT.clear();
 
     for (int i = 0; i < G.n; i++)

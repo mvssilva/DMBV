@@ -13,6 +13,43 @@ void Graph::detect_articulations_bridges()
     DFS(root);
 }
 
+void graph_copy(Graph &source, Graph &target)
+{
+    target.name = source.name;
+    target.n = source.n;
+    target.m = source.m;
+
+    // target.edge = source.edge;
+    target.listAdj = source.listAdj;
+    target.V = source.V;
+    target.InV = source.InV;
+    target.articulation = source.articulation;
+    target.bridges = source.bridges;
+
+    // Liberar memória antiga, se necessário
+    if (target.deg) {
+        delete[] target.deg;
+    }
+    if (target.pagerank) {
+        delete[] target.pagerank;
+    }
+
+    // Copiar os ponteiros
+    if (source.deg) {
+        target.deg = new int[source.n];
+        std::copy(source.deg, source.deg + source.n, target.deg);
+    } else {
+        target.deg = nullptr;
+    }
+
+    if (source.pagerank) {
+        target.pagerank = new double[source.n];
+        std::copy(source.pagerank, source.pagerank + source.n, target.pagerank);
+    } else {
+        target.pagerank = nullptr;
+    }
+}
+
 void Graph::update_conection(int v, int u)
 {
     int maxC = max(listCC[v], listCC[u]);

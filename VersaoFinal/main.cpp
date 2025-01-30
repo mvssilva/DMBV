@@ -18,16 +18,18 @@ int main(int argc, char *argv[]){
 
     //Leitura do Grafo conexo e não direcionado inicial.
     Graph g = read_graph(argv[1]);
-    
+
     // Algoritmo Construtivo R-BEP
     Graph t = construct_rbep(g);
+
+    // t.graph_print();
 
     // Busca Local - ILS
     Graph h = local_search(g, t);
 
-    // ofstream result("output/rbep.csv", std::ios_base::app);
-    // result << "../" <<argv[1] << ";"<< g.n << ";" << g.m << ";" << t.number_dbranch() << ";" << endl;
-    // result.close();
+    ofstream result("output/rbep.csv", std::ios_base::app);
+    result << "../" <<argv[1] << ";"<< g.n << ";" << g.m << ";" << t.number_dbranch() << ";" << endl;
+    result.close();
     
     return 0;
 }
