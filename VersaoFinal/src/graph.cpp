@@ -19,7 +19,7 @@ void graph_copy(Graph &source, Graph &target)
     target.n = source.n;
     target.m = source.m;
 
-    // target.edge = source.edge;
+    target.edge = source.edge;
     target.listAdj = source.listAdj;
     target.V = source.V;
     target.InV = source.InV;

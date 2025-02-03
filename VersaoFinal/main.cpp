@@ -27,8 +27,8 @@ int main(int argc, char *argv[]){
     // Busca Local - ILS
     Graph h = local_search(g, t);
 
-    ofstream result("output/rbep.csv", std::ios_base::app);
-    result << "../" <<argv[1] << ";"<< g.n << ";" << g.m << ";" << t.number_dbranch() << ";" << endl;
+    ofstream result("output/local_search.csv", std::ios_base::app);
+    result << "../" <<argv[1] << ";"<< g.n << ";" << g.m << ";" << h.number_dbranch() << ";" << endl;
     result.close();
     
     return 0;
