@@ -22,7 +22,8 @@ Graph local_search(Graph&, Graph&);
 bool best_neighbor(Graph &G, Graph &T, Graph &T1, bool *LH, int * L, bool *OH, int *visitado);
 void mark_visited(Graph &, int, int, int *);
 void find_edge(Graph &G, Graph &T1, bool *LH, int *L, bool * OH, int *visitado, int u, int v, int &e_1,int &e_2);
-void remove_edge(vector<vector<int>>& listAdj, int src, int dest);
-void add_edge(vector<vector<int>>& listAdj, int src, int dest);
+void remove_edge(Graph&, int src, int dest);
+void add_edge(Graph&, int src, int dest);
+void print_AdjList(const Graph &T, int vertex);
 
 #endif // LOCAL_SEARCH__

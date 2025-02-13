@@ -82,6 +82,8 @@ class Heuristic
         void printH2();
         void getSol(int,bool*,bool**,float*);
         void print_graphviz(std::ofstream&, igraph_t &g);
+        void print_graphviz_cout(igraph_t &g);
+
         void print_graphviz_neighbor(igraph_t &G, igraph_t &T1, int e_1, int e_2, int v, int u, const std::string &path, string &step, int & improvement);
 
         void saveGraphvizFile(const std::string &path, string &step, igraph_t &g);

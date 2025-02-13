@@ -35,12 +35,14 @@ Graph local_search(Graph& g, Graph& t)
 
     do
     {   
+
         improvement = best_neighbor(g, t, t1, LH, L, OH, visitado);
         
         if(improvement)
             graph_copy(t1, t);
 
     }while(improvement);
+
 
     return t1;
 }
@@ -66,6 +68,10 @@ bool best_neighbor(Graph &G, Graph &T, Graph &T1, bool *LH, int * L, bool *OH, i
     int n = G.n;
     int u, v, e_1, e_2;
 
+    for(int i = 0; i < T.n; i++){
+        T.pagerank[i] = G.pagerank[i];
+    }
+
     /*** Inicialização das variáveis ***/
     /*** T1 = T */
     graph_copy(T, T1);
@@ -85,36 +91,30 @@ bool best_neighbor(Graph &G, Graph &T, Graph &T1, bool *LH, int * L, bool *OH, i
     for(itS = S.begin(); itS != S.end(); ++itS)
     {   
         v = (*itS).second; 
-        // cout << "dbranch = " << v+1 << endl;
         if(T1.deg[v] + L[v] > d)
         {
-            vector<int>& adjV = T1.listAdj[v];
-            for(int j = 0; j < adjV.size(); j++)
-            {
-                u = adjV[j];
+            // Cria uma cópia da lista de adjacência de v
+            vector<int> copiaAdjV = T1.listAdj[v];
+            std::sort(copiaAdjV.begin(), copiaAdjV.end());
+            for(int j = 0; j < copiaAdjV.size(); j++)
+            {   
+                u = copiaAdjV[j];
                 flag = T1.deg[u] + L[u] > d ? true : false;
                 
                 mark_visited(T1, u, v, visitado);
-
                 find_edge(G, T1, LH, L, OH, visitado, u, v, e_1, e_2); 
-                
+
                 if(e_1 != -1)   // and also e_2         
                 {   
-                    remove_edge(T1.listAdj, u,v);
-                    add_edge(T1.listAdj, e_1, e_2);
+                    // cout<< "rem " << v + 1 << " -- " << u + 1 << endl;
+                    remove_edge(T1, u,v);
+                    // cout<< "add " << e_2 + 1 << " -- " << e_1 + 1 << endl;
+                    add_edge(T1, e_1, e_2);                    
                 }
 
                 if(T1.deg[v] + L[v] <= d || (flag && T1.deg[u] + L[u] <= d ))
                 {   
-                    
-                    int auxDB = 0;
-                    for (int i = 0; i < n; i++)
-                    {
-                        if (T1.deg[i] + L[i] > d && !OH[i])
-                        {
-                            auxDB++;
-                        }
-                    }
+                    int auxDB = T1.number_dbranch();
 
                     if(auxDB < currDB){
                         currDB = auxDB;
@@ -127,6 +127,7 @@ bool best_neighbor(Graph &G, Graph &T, Graph &T1, bool *LH, int * L, bool *OH, i
     }
 
     graph_copy(bestT, T1);
+    
 
     if((currDB  < startDB))
         return true;
@@ -229,7 +230,6 @@ void find_edge(Graph &G, Graph &T1, bool *LH, int *L, bool * OH, int *visitado, 
                             switch(optionI) 
                             {
                               case CASE_1:  optionIJ = CASE_11;
-                                            // wIJ = degree(G, i) + degree(G, j) - n*OH[i] - n*OH[j];
                                             wIJ = G.pagerank[i] + G.pagerank[j];
                                             if(wIJ < weight[CASE_11])
                                             {
@@ -242,7 +242,6 @@ void find_edge(Graph &G, Graph &T1, bool *LH, int *L, bool * OH, int *visitado, 
                               case CASE_2:  if(optionIJ >= CASE_12)
                                             {
                                                 optionIJ = CASE_12;
-                                                // wIJ = degree(G, i) - n*OH[i] + degree(G, j);
                                                 wIJ = G.pagerank[i] + G.pagerank[j];
                                                 if(wIJ < weight[CASE_12])
                                                 {
@@ -256,7 +255,6 @@ void find_edge(Graph &G, Graph &T1, bool *LH, int *L, bool * OH, int *visitado, 
                               case CASE_3:  if(optionIJ >= CASE_13)
                                             {
                                                 optionIJ = CASE_13;
-                                                // wIJ = degree(G, i) - n*OH[i] - T1.deg[j];
                                                 wIJ = G.pagerank[i] + G.pagerank[j];
                                                 if(wIJ < weight[CASE_13])
                                                 {
@@ -377,15 +375,21 @@ void find_edge(Graph &G, Graph &T1, bool *LH, int *L, bool * OH, int *visitado, 
     e_2 = edge[optionIJ][1];
 }
 
-void remove_edge(vector<vector<int>>& listAdj, int src, int dest) {
+void remove_edge(Graph & T, int src, int dest) {
+    vector<vector<int>>& listAdj = T.listAdj;
     // Remove dest da lista de adjacência de src
     listAdj[src].erase(remove(listAdj[src].begin(), listAdj[src].end(), dest), listAdj[src].end());
 
-    // Remove src da lista de adjacência de dest (se o grafo for não direcionado)
+    // Remove src da lista de adjacência de dest 
     listAdj[dest].erase(remove(listAdj[dest].begin(), listAdj[dest].end(), src), listAdj[dest].end());
+
+    T.deg[src]--;
+    T.deg[dest]--;
 }
 
-void add_edge(vector<vector<int>>& listAdj, int src, int dest) {
+void add_edge(Graph & T, int src, int dest) {
+    vector<vector<int>>& listAdj = T.listAdj;
+
     if (src == dest)
         return;
 
@@ -394,5 +398,15 @@ void add_edge(vector<vector<int>>& listAdj, int src, int dest) {
 
     // Adiciona src à lista de adjacência de dest (se for grafo não direcionado)
     listAdj[dest].push_back(src);
+
+    T.deg[src]++;
+    T.deg[dest]++;
+}
+
+void print_AdjList(const Graph &T, int vertex) {
+    cout << "listAdj[" << vertex << "]: ";
+    for (int v : T.listAdj[vertex])
+        cout << v << " ";
+    cout << endl;
 }
 

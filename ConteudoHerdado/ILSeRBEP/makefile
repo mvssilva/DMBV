@@ -44,7 +44,7 @@ run: main.o
 	@echo "Resultados salvos!"
 
 runsimples: main.o
-	./dmbv ../../Instancias/Spd_Inst_Rid_Final2_20_500_Orig/Spd_RF2_20_27_211.txt 2 2 0 0 0 0;
+	./dmbv ../../Instancias/Spd_Inst_Rid_Final2_20_500_Orig/Spd_RF2_200_289_3931.txt 2 2 1 1 1 1;
 
 clean:
 	rm --force main main.o

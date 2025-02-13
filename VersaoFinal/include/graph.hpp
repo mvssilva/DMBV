@@ -97,6 +97,7 @@ class Graph {
         int u_min_pagerank(int v);    
 
         int number_dbranch();
+        void print_dbranch();
 
         bool graph_exists_edge(int, int) const;
         void graph_print() const;

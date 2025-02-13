@@ -246,6 +246,20 @@ int Graph::number_dbranch()
     return qtd;
 }
 
+void Graph::print_dbranch()
+{
+    
+    int qtd = 0;
+
+    for(int i = 0; i < n; i++){
+        
+        if(deg[i] > 2){
+            cout << i + 1 << endl;
+        }
+    }
+
+}
+
 
 bool Graph::graph_exists_edge(int src, int dest) const
 {

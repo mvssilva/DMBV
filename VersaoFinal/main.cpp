@@ -26,10 +26,22 @@ int main(int argc, char *argv[]){
 
     // Busca Local - ILS
     Graph h = local_search(g, t);
+    
+    
+    // double n = 0, m = 0;
+    // n = g.n;
+    // m = g.m;
+    // double density = (2 * m) / (n * (n - 1));
+    // ofstream result("output/density_alfa25.csv", std::ios_base::app);
+    // result << "../" << argv[1] << ";"<< g.n << ";" << g.m << ";"; //<< t.number_dbranch() << ";";// << density << ";";
+    // double alfa = 2.5;
+    // for (double alfa = 1.5; alfa <= 2.5; alfa += 0.1) {
+    //     result << 1 / (alfa * density) << ";";
+    // }
 
-    ofstream result("output/local_search.csv", std::ios_base::app);
-    result << "../" <<argv[1] << ";"<< g.n << ";" << g.m << ";" << h.number_dbranch() << ";" << endl;
-    result.close();
+    // result << endl;
+
+    // result.close();
     
     return 0;
 }

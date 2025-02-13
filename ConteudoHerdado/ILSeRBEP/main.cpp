@@ -103,7 +103,7 @@ int main(int argc, char *argv[])
     heuristic.ILS(g,L,OH, pagerank, argv[1], selectionConstruct, selectionSearch, orderingSearch, orderingPetu);
 
     real_time = ((double)clock() - (double)start) / CLOCKS_PER_SEC;
-    ofstream RBEPm("output/rbep.csv", std::ios_base::app);
+    ofstream RBEPm("output/localsearchOrigin.csv", std::ios_base::app);
     
     RBEPm << argv[1] << ";"<< n << ";" << m << ";" << heuristic.numHV << ";" << endl;
     RBEPm.close();

@@ -93,101 +93,102 @@ void Heuristic::ILS(igraph_t &g, int *L, bool *OH,  vector<float> &pagerank, con
 
     LocalSearch(g,L,OH,adjlist, pagerank, path, step, selectionSearch, orderingSearch);
 
-    if(numHV == 0)
-        return;
+    // print_graphviz_cout(T);
+    // if(numHV == 0)
+    //     return;
 
-    bool **FE = new bool*[n];
-    int *visitado = new int[n];
+    // bool **FE = new bool*[n];
+    // int *visitado = new int[n];
 
-    for(int i = 0; i < n; i++)
-    {
-        FE[i] = new bool [n];
+    // for(int i = 0; i < n; i++)
+    // {
+    //     FE[i] = new bool [n];
 
-        for(int j = 0;j < n; j++)
-            FE[i][j] = false;
-    }
+    //     for(int j = 0;j < n; j++)
+    //         FE[i][j] = false;
+    // }
 
-    igraph_t Tbest;
-    igraph_copy(&Tbest, &T);
-    int numHVbest = numHV;
+    // igraph_t Tbest;
+    // igraph_copy(&Tbest, &T);
+    // int numHVbest = numHV;
 
-    clock_t start;
-    start = clock();
-    float Time;
+    // clock_t start;
+    // start = clock();
+    // float Time;
 
-    cout << "\tOrdering Pertubation = " ;
+    // cout << "\tOrdering Pertubation = " ;
 
-    if(orderingPetu == 0)
-        cout << "Degree" << endl;
-    else
-        cout << "Pagerank" << endl;
+    // if(orderingPetu == 0)
+    //     cout << "Degree" << endl;
+    // else
+    //     cout << "Pagerank" << endl;
 
-    do
-    {
-        Time = ((double)clock() - (double)start) / CLOCKS_PER_SEC;
+    // do
+    // {
+    //     Time = ((double)clock() - (double)start) / CLOCKS_PER_SEC;
 
-        if(Time > time_Limit-1)
-            break;
+    //     if(Time > time_Limit-1)
+    //         break;
 
-        if(orderingPetu == 0){
-            if(!Pertubation_by_degree(g, L, OH, visitado, u, v, e_1, e_2, FE, adjlist, pagerank))
-                break;
-            else
-                FE[e_1][e_2] = FE[e_2][e_1] = true;
+    //     if(orderingPetu == 0){
+    //         if(!Pertubation_by_degree(g, L, OH, visitado, u, v, e_1, e_2, FE, adjlist, pagerank))
+    //             break;
+    //         else
+    //             FE[e_1][e_2] = FE[e_2][e_1] = true;
             
-        }else{
-            if(!Pertubation_by_pagerank(g, L, OH, visitado, u, v, e_1, e_2, FE, adjlist, pagerank))
-                break;
-            else
-                FE[e_1][e_2] = FE[e_2][e_1] = true;
+    //     }else{
+    //         if(!Pertubation_by_pagerank(g, L, OH, visitado, u, v, e_1, e_2, FE, adjlist, pagerank))
+    //             break;
+    //         else
+    //             FE[e_1][e_2] = FE[e_2][e_1] = true;
             
-        }
+    //     }
 
-        LocalSearch(g,L,OH,adjlist, pagerank, path, step, selectionSearch, orderingSearch);
+    //     LocalSearch(g,L,OH,adjlist, pagerank, path, step, selectionSearch, orderingSearch);
 
-        if(numHV < numHVbest) //improvement
-        {
-            igraph_copy(&Tbest, &T);
-            numHVbest = numHV;
+    //     if(numHV < numHVbest) //improvement
+    //     {
+    //         igraph_copy(&Tbest, &T);
+    //         numHVbest = numHV;
 
-            if(numHVbest == 0)
-                break;
+    //         if(numHVbest == 0)
+    //             break;
 
-            for(int i = 0; i < n; i++)
-            {
-                adjVert = igraph_adjlist_get(&adjlist, i);
-                for(int j = 0; j < igraph_vector_int_size(adjVert); j++)
-                {
-                    int aux = igraph_vector_int_e(adjVert, j);
-                    FE[i][aux] = FE[aux][i]= false;
-                }
-            }
+    //         for(int i = 0; i < n; i++)
+    //         {
+    //             adjVert = igraph_adjlist_get(&adjlist, i);
+    //             for(int j = 0; j < igraph_vector_int_size(adjVert); j++)
+    //             {
+    //                 int aux = igraph_vector_int_e(adjVert, j);
+    //                 FE[i][aux] = FE[aux][i]= false;
+    //             }
+    //         }
 
-        }
+    //     }
 
-    }while(true);
+    // }while(true);
 
-    igraph_copy(&T, &Tbest);
-    numHV = 0;
+    // igraph_copy(&T, &Tbest);
+    // numHV = 0;
 
-    for(int i = 0; i < n; i++)
-    {
-        if(degree(T, i) + L[i] > d)
-        {
-            H[i] = true;
-            numHV++;
-        }
+    // for(int i = 0; i < n; i++)
+    // {
+    //     if(degree(T, i) + L[i] > d)
+    //     {
+    //         H[i] = true;
+    //         numHV++;
+    //     }
 
-        else
-            H[i] = false;
-    }
+    //     else
+    //         H[i] = false;
+    // }
 
-    for(int i = 0; i < n; i++)
-        delete []FE[i];
+    // for(int i = 0; i < n; i++)
+    //     delete []FE[i];
 
-    delete []FE;
-    delete []visitado;
-    cout << endl;
+    // delete []FE;
+    // delete []visitado;
+    // cout << endl;
     
 
 
@@ -207,15 +208,15 @@ void Heuristic::LocalSearch(igraph_t &G, int *L, bool * OH, igraph_adjlist_t &ad
     LH = new bool [n];
 
     int cont  = 0;
-
     do
     {   
         improvement = Custom_Neighbor(G, T1, LH, L, OH, visitado, adjlist, pagerank, path, step, selectionSearch, orderingSearch);
-        
         if(improvement)
             igraph_copy(&T, &T1);
 
         cont ++;
+        cout << endl;
+        cout << endl;
 
     }while(improvement);
 
@@ -288,7 +289,6 @@ bool Heuristic::Custom_Neighbor(igraph_t &G, igraph_t &T1, bool *LH, int * L, bo
     int minAtualDmbv = 0;
     
     orderer_vertex(T, S, pagerank, n, LH, L, OH, minAtualDmbv, orderingSearch, d);
-
     int qtdInicialDmbv = minAtualDmbv;
     int improvement = 0;
 
@@ -296,13 +296,20 @@ bool Heuristic::Custom_Neighbor(igraph_t &G, igraph_t &T1, bool *LH, int * L, bo
     for(itS = S.begin(); itS != S.end(); ++itS)
     {   
         v = (*itS).second; 
-        // cout << "dbranch = " << v+1 << endl;
+        // cout << "v = " << v + 1 << " - ";
+        // cout << "dbranch = " << v+1 << " -- " << pagerank[v] << endl;
         if(degree(T1, v)+L[v] > d)
         {
             igraph_neighbors(&T1, &AdjV, v, IGRAPH_OUT);
+            // cout << v + 1 << " = " << igraph_vector_size(&AdjV) << endl; 
             for(int j = 0; j < igraph_vector_size(&AdjV); j++)
             {
                 u = igraph_vector_e(&AdjV, j);
+                // cout << v + 1 << " -- " << u + 1 << endl;
+
+                // cout << "v = " << v + 1 << " - "<< "u = " << u+1 << " tamanho = " << igraph_vector_size(&AdjV) << endl;
+                // cout << "u = " << u+1 << endl;
+                // cout << v + 1 <<" -- "<< u+1 << endl;
                 flag = degree(T1, u)+L[u] > d ? true : false;
                 RemoveEdge(T1, u, v, visitado);
 
@@ -316,10 +323,18 @@ bool Heuristic::Custom_Neighbor(igraph_t &G, igraph_t &T1, bool *LH, int * L, bo
                 // igraph_t auxT;
                 // igraph_copy(&auxT, &T1);
                 // print_graphviz_neighbor(G, auxT, e_1, e_2, v, u, path, step, improvement);
+                // cout << e_1 + 1 << " - " << e_2 + 1 << ";" << endl;
                 
+                // cout << "remove " <<v+1 << "-" << u+1 s- " << degree(T1, u) << endl;
+                    // cout << "remove " <<v+1 << "-" << u+1<< endl;
+                    // cout << "add " <<e_2 + 1 << "-" << e_1 + 1 << endl;
                 if(e_1 != -1)   // and also e_2         
                 {   
+                    // cout << "add " <<e_2 + 1 << "-" << e_1 + 1 << endl;
                     removeEdge(T1, u,v);
+                    cout<< "rem " << v + 1 << " -- " << u + 1 << endl;
+                    cout<< "add " << e_2 + 1 << " -- " << e_1 + 1 << endl;
+
                     addEdge(T1, e_1, e_2);
                 }
 
@@ -343,7 +358,6 @@ bool Heuristic::Custom_Neighbor(igraph_t &G, igraph_t &T1, bool *LH, int * L, bo
                     }
                 }
             }
-
             if(selectionSearch == 0 && (degree(T1, v)+L[v] <= d || (flag && degree(T1, u)+L[u] <= d )))
             {
                 S.clear();
@@ -1149,6 +1163,7 @@ void Heuristic::FindEdge_Pagerank(igraph_t &G, igraph_t &T1, bool *LH, int *L, b
                 {explore = true; optionI = CASE_3;}
 
             adjVert = igraph_adjlist_get(&adjlist, i);
+            // cout << " v = " << i + 1 << " tam " <<  igraph_vector_int_size(adjVert)  << endl;
             for(int k = 0; k < igraph_vector_int_size(adjVert) && explore; ++k)
             {
                 j = igraph_vector_int_e(adjVert, k);
@@ -2158,6 +2173,58 @@ void Heuristic::absorve(int *component, int min_u, int min_v, int *length_compon
             }
 }
 
+void Heuristic::print_graphviz_cout(igraph_t &G) {
+    igraph_adjlist_t adjlistT;
+    igraph_adjlist_init(&T, &adjlistT, IGRAPH_OUT, IGRAPH_NO_LOOPS, IGRAPH_MULTIPLE);
+    igraph_vector_int_t *adjVertT;
+
+    igraph_adjlist_t adjlistG;
+    igraph_adjlist_init(&G, &adjlistG, IGRAPH_OUT, IGRAPH_NO_LOOPS, IGRAPH_MULTIPLE);
+    igraph_vector_int_t *adjVertG;
+
+    cout << "graph G {" << endl;
+
+    int nodAtual = 0;
+    for (int i = 0; i < igraph_vcount(&T); i++) {
+        nodAtual = i + 1;
+
+        adjVertT = igraph_adjlist_get(&adjlistT, i);
+        adjVertG = igraph_adjlist_get(&adjlistG, i);
+
+        for (int j = 0; j < igraph_vector_int_size(adjVertG); j++) {
+            int auxG = igraph_vector_int_e(adjVertG, j) + 1;
+            int auxT = -1;
+                for (int h = 0; h < igraph_vector_int_size(adjVertT); h++){
+                    int auxT_aux = igraph_vector_int_e(adjVertT, h) + 1;
+                    if(auxG == auxT_aux){
+                        auxT = auxT_aux;
+                        break;
+                    }
+                }
+            if(auxT == -1){
+                if(auxG > nodAtual)
+                    cout << "\t" <<nodAtual << " -- " << auxG << "[color=lightgrey]"<< endl;
+            }
+            else if (auxT != -1) {
+                if(auxT > nodAtual)
+                    cout << "\t" <<nodAtual << " -- " << auxT << endl;
+                
+            }
+        }
+    }
+
+    nodAtual = 0;
+    for (int i = 0; i < igraph_vcount(&T); i++) {
+        nodAtual = i + 1;
+        if(degree(T, i) > d){
+            cout << "\t" << nodAtual << " [color=""lightblue"", style=""filled""];" << "\n";
+        }
+    }
+    cout << "}" << endl;
+    igraph_adjlist_destroy(&adjlistT);
+    igraph_adjlist_destroy(&adjlistG);
+
+}
 
 void Heuristic::print_graphviz(std::ofstream& output, igraph_t &G) {
     igraph_adjlist_t adjlistT;
