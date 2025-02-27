@@ -93,8 +93,39 @@ void RBEP::Oliveira(std::mt19937_64& gen, int &k)
     });
     int cont = 0;
 
-    // cout << "Pontes: " << endl;
-    // T.ImprimirArvoreGraphviz();
+    cout << "Grafo Original: " << endl;
+    cout <<"graph G{" << endl;
+    for (int i = 0; i < G.n; i++)
+    {
+        for (int u : G.listaAdj[i]){
+            if(i < u)
+            cout <<"  "<< i+1 << "--" << u+1 << endl;
+
+        }
+    }
+    cout << "}" << endl;
+
+    cout << "Inicio Ãrvore T (Pontes) " << endl;
+    cout << "graph T {" << endl;
+    for (int i = 0; i < G.n; i++) {
+        for (int u : G.listaAdj[i]) {
+            if (i < u) {
+                bool inT = false;
+                for (int v : T.listaAdj[i]) {
+                    if (v == u) {
+                        inT = true;
+                        break;
+                    }
+                }
+                cout << "  " << i + 1 << " -- " << u + 1 << (inT ? " [color=black];" : " [color=lightgray];") << endl;
+            }
+        }
+    }
+    for (int i = 0; i < G.n; i++){
+        if(T.Grau(i) > 2)
+        cout << i + 1 << "[color=lightblue, style=filled];" << endl;
+    }
+    cout << "}" << endl;
     
     while(T.NumeroArestas() < G.n - 1){
         int v = S[cont].second;
@@ -118,9 +149,29 @@ void RBEP::Oliveira(std::mt19937_64& gen, int &k)
             }
         }
         cont++;
-        // cout << endl;
-        // cout << "Loop Add -- " << v + 1 << endl;
-        // T.ImprimirArvoreGraphviz();
+        cout << endl;
+        cout << "Loop Add -- " << v + 1 << endl;
+        cout << "graph T {" << endl;
+        for (int i = 0; i < G.n; i++) {
+            for (int u : G.listaAdj[i]) {
+                if (i < u) {
+                    bool inT = false;
+                    for (int v : T.listaAdj[i]) {
+                        if (v == u) {
+                            inT = true;
+                            break;
+                        }
+                    }
+                    cout << "  " << i + 1 << " -- " << u + 1 << (inT ? " [color=black];" : " [color=lightgray];") << endl;
+                }
+            }
+        }
+
+        for (int i = 0; i < G.n; i++){
+            if(T.Grau(i) > 2)
+            cout << i + 1 << "[color=lightblue, style=filled];" << endl;
+        }
+        cout << "}" << endl;
     }
     k = cont;
 

@@ -1,20 +1,19 @@
 
 ## Equações de Teste
 
-Para relacionar o valor de \( K \) que atinge a quantidade exata de *dBranchs*:
+Para relacionar o valor de (K) que atinge a quantidade exata de *dBranchs*:
 
-1. **Relação entre Densidade e \( K \):**
-   
-   Quando a densidade do grafo é considerada, a equação que relaciona \( K \) é:
-   
-   \[
-   K = 32.5649 \times \text{Density} + 1.9948
-   \]
+1. **Relação entre Densidade e (K):**
+      
+   K = 32.5649  * Density + 1.9948
 
-2. **Relação entre a Quantidade de Vértices e \( K \):**
+
+2. **Relação entre a Quantidade de Vértices e (K):**
    
-   Quando consideramos o número de vértices (\( N \)), a equação que define \( K \) é:
-   
-   \[
-   K = -0.0036 \times N + 4.1587
-   \]
+   K = -0.0036 * N + 4.1587
+
+
+3. **Relação multipla entre a Quantidade de Vértices, a quantidade de Arestas e (K):**
+      
+   K = -0.0098 * Vértices + 0.0055 * Arestas + 3.9640
+

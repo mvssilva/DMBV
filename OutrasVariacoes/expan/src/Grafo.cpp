@@ -292,7 +292,8 @@ void Grafo::ImprimirListaAdj() const
 void Grafo::ImprimirArvoreGraphviz() const
 {   
 
-    cout <<"graph G{" << endl;
+    // cout <<"graph G{" << endl;
+        cout << endl;
     for (int i = 0; i < n; i++)
     {
         for (int u : listaAdj[i]){
@@ -301,7 +302,9 @@ void Grafo::ImprimirArvoreGraphviz() const
 
         }
     }
-    cout << "}" << endl;
+    cout << endl;
+
+    // cout << "}" << endl;
 
 }
 
