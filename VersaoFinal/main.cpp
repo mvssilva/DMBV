@@ -20,12 +20,12 @@ int main(int argc, char *argv[]){
     Graph g = read_graph(argv[1]);
 
     // Algoritmo Construtivo R-BEP
-    Graph t = construct_rbep(g);
+    // Graph t = construct_rbep(g);
 
     // t.graph_print();
 
     // Busca Local - ILS
-    Graph h = local_search(g, t);
+    // Graph h = local_search(g, t);
     
     
     // double n = 0, m = 0;
@@ -41,7 +41,7 @@ int main(int argc, char *argv[]){
 
     // result << endl;
 
-    // result.close();
+    result.close();
     
     return 0;
 }

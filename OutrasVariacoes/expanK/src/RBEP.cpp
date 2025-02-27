@@ -83,12 +83,18 @@ void RBEP::Oliveira(std::mt19937_64& gen, int &k)
         }
     }
 
-    vector< pair<float,int> > S;
-    for(int i = 0; i < G.n; i++)
+    vector< pair<double,int> > S;
+    for(int i = 0; i < G.n; i++){
         S.push_back(make_pair(G.PG[i], i));
+    }
 
-    sort(S.begin(), S.end());
+    std::sort(S.begin(), S.end(), [](const std::pair<double, int>& a, const std::pair<double, int>& b) {
+        return a.first > b.first; 
+    });
     int cont = 0;
+
+    // cout << "Pontes: " << endl;
+    // T.ImprimirArvoreGraphviz();
     
     while(T.NumeroArestas() < G.n - 1){
         int v = S[cont].second;
@@ -112,6 +118,9 @@ void RBEP::Oliveira(std::mt19937_64& gen, int &k)
             }
         }
         cont++;
+        // cout << endl;
+        // cout << "Loop Add -- " << v + 1 << endl;
+        // T.ImprimirArvoreGraphviz();
     }
     k = cont;
 

@@ -22,7 +22,7 @@ class Grafo
 
         vector<bool> InV;
         vector<int> V;
-        vector<float> PG;
+        vector<double> PG;
 
         vector<pair<int,int>> E;
         vector<vector<int>> listaAdj;
@@ -45,7 +45,7 @@ class Grafo
         bool BuscarVertice(int v) const;
 
         void AdicionarVertice(int v);
-        void AdicionarPageRank(float pg);
+        void AdicionarPageRank(double pg, int i);
         void AdicionarAresta(int v, int u);
         void RemoverAresta(int v, int u);
 
@@ -60,6 +60,7 @@ class Grafo
 
         void ImprimirListaAdj() const;
         void ImprimirArvoreGraphviz() const;
+        vector<int> RetornaDBranch();
     
     protected:
         int raiz;

@@ -77,8 +77,9 @@ Grafo Grafo::LerArquivo(string nomeArquivo, igraph_t &g)
 
         igraph_vector_t* from = &pagerank;
         for (int i = 0; i < n; i++){
-            float x = (float) igraph_vector_e(from, i); 
-            G.AdicionarPageRank(x);
+            double x = (double) igraph_vector_e(from, i); 
+            G.AdicionarPageRank(x, i);
+            // cout << G.PG[i] << endl; 
         }
         igraph_vector_destroy(&pagerank);
 		return G;
@@ -90,9 +91,10 @@ Grafo Grafo::LerArquivo(string nomeArquivo, igraph_t &g)
 	}
 }
 
-void Grafo::AdicionarPageRank(float pg)
+void Grafo::AdicionarPageRank(double pg, int i)
 {   
-    PG.push_back(pg);
+    // cout << pg << endl;
+    PG[i] = pg;
 }
 
 Grafo::~Grafo()
@@ -293,11 +295,26 @@ void Grafo::ImprimirArvoreGraphviz() const
     cout <<"graph G{" << endl;
     for (int i = 0; i < n; i++)
     {
-        for (int u : listaAdj[i])
+        for (int u : listaAdj[i]){
+            if(i < u)
             cout <<"  "<< i+1 << "--" << u+1 << endl;
+
+        }
     }
     cout << "}" << endl;
 
+}
+
+vector<int> Grafo::RetornaDBranch()
+{   
+    vector<int> db;
+    for(int i = 0; i < n; i++){
+        if(Grau(i) > 2)
+            db.push_back(i);
+        
+    }
+
+    return db;
 }
 
 int existsEdge(igraph_t &g, int from, int to)

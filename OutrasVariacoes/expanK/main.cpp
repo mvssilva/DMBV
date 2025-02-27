@@ -70,7 +70,7 @@ int main(int argc, char * argv[]){
 
     int k = 0;
     
-    for(int i=0; i<100; i++)
+    for(int i=0; i<1; i++)
     {
         double time_spent4 = 0.0;
         clock_t start4 = clock();
@@ -85,7 +85,7 @@ int main(int argc, char * argv[]){
         Time += time_spent;
 
         T = alg.ObterArvore();
-        BT = alg.ObterBranches();
+        BT = T.RetornaDBranch();
         BTv.push_back(BT.size());
 
         if(BT.size() < BTMin){
@@ -101,7 +101,7 @@ int main(int argc, char * argv[]){
     float soma = 0.0;
     for(int i : BTv)
        soma = soma + i;
-    RBEPm << argv[1] <<  ";"<< G.n << ";" << G.m << ";" << BTMin << ";" << k << ";" << verificado << ";" << endl;
+    RBEPm << argv[1] <<  ";"<< G.n << ";" << G.m << ";" << BTMin << ";" << verificado << ";" << endl;
     RBEPm.close();
 
     

@@ -51,8 +51,8 @@ int main(int argc, char *argv[]){
             }
         }
 
-        ofstream result("output/alfa_exact.csv", std::ios_base::app);
-        result << name << ";" << n << ";" << m << ";" << db << ";" << bestAlfa << ";" << endl;
+        ofstream result("output/rel_densidade_alfa.csv", std::ios_base::app);
+        result << name << ";" << n << ";" << m << ";" << density << ";" << bestAlfa << ";" << endl;
         result.close();
     }
 
